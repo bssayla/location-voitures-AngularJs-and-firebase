@@ -1,0 +1,55 @@
+<!-- un formulaire pour ajouter les infos de client(nom,prenom,tel,address) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="client.component.css">
+
+<h1>Ajouter un Client</h1>
+
+<form #clientsForm = "ngForm"  (ngSubmit)="onAddClient(clientsForm.value)" >
+    <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" name="nom" placeholder="Nom" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prenom</label>
+        <input type="text" class="form-control" name="prenom" placeholder="Prenom" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" name="adresse" placeholder="Address" ngModel>
+    </div>
+    <button type="submit" class="btn btn-primary" value="">{{editMode ? 'Update' :'Ajouter'}}</button>
+
+</form>
+<h1> La List Des Client </h1>
+
+<div class="product-display-area">
+    <table id="products">
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Adress</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngIf=" allClients.length<1 && !isFetching">
+        <td colspan="5">No clients found</td>
+      </tr>
+      <tr *ngIf="isFetching">
+        <td colspan="5">loading data...</td>
+      </tr>
+      <tr *ngFor="let client of allClients; index as i">
+        <td> {{i+1}} </td>
+        <td>{{client.nom}}</td>
+        <td> {{client.prenom}} </td>
+        <td> {{client.adresse}} </td>
+        <td><button class="btn-delete" (click)="onDeleteClient(client.id)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        <td><button class="btn-success" (click)="onEditClient(client.id)">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></td>
+      </tr>
+    </table>
+    <br>
+    
+  </div>
+  <div class="action-btn-container btn ">
+    <button class="btn-fetch" (click)="onClientsFetch()">Fetch</button>
+  </div>
