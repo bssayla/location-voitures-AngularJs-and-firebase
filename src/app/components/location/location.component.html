@@ -1,1 +1,85 @@
-<p>location works!</p>
+<!-- un formulaire pour ajouter les infos de location(nom,prenom,tel,address) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="location.component.css">
+
+<h1>Ajouter une Location</h1>
+
+<form #locationsForm = "ngForm"  (ngSubmit)="onAddLocation(locationsForm.value)" >
+    <div class="form-group">
+        <label for="date_debut">Date Debut</label>
+        <input type="date" class="form-control" name="date_debut" placeholder="Date Debut" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="date_fin">Date Fin</label>
+        <input type="date" class="form-control" name="date_fin" placeholder="Date Fin" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="client_id">Client</label>
+        <select class="form-control form-select-lgmb-3" aria-label=".form-select-lg" name="client_id" ngModel>
+            <option *ngFor="let client of allClients" [value]="client.id">{{client.nom}} {{client.prenom}} </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="voiture_id">Voiture</label>
+        <select class="form-control" name="voiture_id" ngModel>
+            <option *ngFor="let voiture of allVoitures" [value]="voiture.id">{{voiture.type}}:{{voiture.marque}} {{voiture.modele}} </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="prix">Prix</label>
+        <input type="text" class="form-control" name="prix" placeholder="Prix" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="kilometrage_debut"> Kilometrage debut </label>
+        <input type="number" class="form-control" name="kilometrage_debut" placeholder="kilometrage debut" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="kilometrage_fin"> Kilometrage fin </label>
+        <input type="number" class="form-control" name="kilometrage_fin" placeholder="kilometrage fin" ngModel>
+    </div>
+    <button type="submit" class="btn btn-primary" value="">{{editMode ? 'Update' :'Ajouter'}}</button>
+
+</form>
+<h1> La List Des Location </h1>
+
+<div class="product-display-area">
+    <table id="products">
+      <tr>
+        <th>#</th>
+        <th>Date Debut</th>
+        <th>Date Fin</th>
+        <th>Client</th>
+        <th>Voiture</th>
+        <th>Prix</th>
+        <th>Kilometrage Debut</th>
+        <th>Kilometrage Fin</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngIf=" allLocations.length<1 && !isFetching">
+        <td colspan="5">No locations found</td>
+      </tr>
+      <tr *ngIf="isFetching">
+        <td colspan="5">loading data...</td>
+      </tr>
+      <tr *ngFor="let location of allLocations; index as i">
+        <td> {{i+1}} </td>
+        <td> {{location.date_debut}} </td>
+        <td> {{location.date_fin}} </td>
+        <td> {{location.client_id}} </td>
+        <td> {{location.voiture_id}} </td>
+        <td> {{location.prix}} </td>
+        <td> {{location.kilometrage_debut}} </td>
+        <td> {{location.kilometrage_fin}} </td>
+
+
+        <td><button class="btn-delete" (click)="onDeleteLocation(location.id)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        <td><button class="btn-success" (click)="onEditLocation(location.id)">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></td>
+      </tr>
+    </table>
+    <br>
+    
+  </div>
+  <div class="action-btn-container btn ">
+    <button class="btn-fetch" (click)="onLocationsFetch()">Fetch</button>
+  </div>

@@ -33,6 +33,8 @@ export class ClientComponent implements OnInit{
 
   onClientsFetch(): void{
     this.fetchClients();
+    this.editMode = false;
+    this.productForm.reset();
   }
 
   onDeleteClient(id: string): void{

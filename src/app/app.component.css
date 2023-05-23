@@ -1,0 +1,38 @@
+.title h1{
+    color: 	#e0201f	;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: center;
+}
+.pages h3 {
+    color: #1FDFE0;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.data{
+    margin-top: 250px;
+}
+.nav-link{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+/* center div title */
+.title {
+    margin-top: 225px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container-pages{
+    margin-top: 50px;
+    
+  }

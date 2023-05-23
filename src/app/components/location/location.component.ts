@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Client } from 'src/app/models/Client';
+import { Location } from 'src/app/models/location';
+import { Voiture } from 'src/app/models/voiture';
+import { ClientService } from 'src/app/services/clients/client.service';
+import { LocationService } from 'src/app/services/locations/location.service';
+import { VoitureService } from 'src/app/services/voitures/voiture.service';
 
 @Component({
   selector: 'app-location',
@@ -6,43 +13,86 @@ import { Component } from '@angular/core';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent {
-  date_debut : Date = new Date();
-  date_fin : Date = new Date();
-  kilometrage_debut : number = 0;
-  kilometrage_fin : number = 0;
-  prix : number = 0;
+  
+  currentLocationId:string;
+  allLocations: Location[] = [];
+  allClients: Client[] = [];
+  allVoitures: Voiture[] = [];
+  isFetching: boolean= false;
+  editMode: boolean = false;
+  @ViewChild ('locationsForm') productForm: NgForm;
 
 
-  //getter and setter
-  get date_debut_(): Date {
-    return this.date_debut;
+  //consturctor
+  constructor(private locationSevice: LocationService,private clientsSevice: ClientService,private voituresSevice: VoitureService )  {
+
+   }
+
+
+
+  
+
+  ngOnInit(): void {
+    this.fetchLocations();
+    this.fetchClients();
+    this.fetchVoitures();
   }
-  set date_debut_(date_debut: Date) {
-    this.date_debut = date_debut;
+
+  onLocationsFetch(): void{
+    this.fetchLocations();
+    this.editMode = false;
+    this.productForm.reset();
+
   }
-  get date_fin_(): Date {
-    return this.date_fin;
+  fetchClients():void {
+    this.clientsSevice.fetchClients().subscribe((clients) => {
+      this.allClients = clients;
+    });
   }
-  set date_fin_(date_fin: Date) {
-    this.date_fin = date_fin;
+  fetchVoitures():void {
+    this.voituresSevice.fetchVoitures().subscribe((voitures) => {
+      this.allVoitures = voitures;
+    });
   }
-  get kilometrage_debut_(): number {
-    return this.kilometrage_debut;
+  onDeleteLocation(id: string): void{
+    this.locationSevice.deleteLocation(id);
+    
   }
-  set kilometrage_debut_(kilometrage_debut: number) {
-    this.kilometrage_debut = kilometrage_debut;
+  onAddLocation(location: {date_debut:Date,date_fin:Date, kilometrage_debut:number,kilometrage_fin:number,prix:number,voiture_id:string,client_id:string }): void{
+    if(!this.editMode){
+      this.locationSevice.ajouterUneLocation(location);
+    }else{
+      this.locationSevice.updateLocation(this.currentLocationId,location);
+    }
   }
-  get kilometrage_fin_(): number {
-    return this.kilometrage_fin;
+  onEditLocation(id:string): void{
+    //get the location based on id
+    this.currentLocationId = id;
+    console.log(id);
+    let currentLocation: Location = this.allLocations.find((location) => location.id === id) as Location;
+
+    //set the form values
+    this.productForm.setValue({
+      date_debut: currentLocation.date_debut,
+      date_fin: currentLocation.date_fin,
+      kilometrage_debut: currentLocation.kilometrage_debut,
+      kilometrage_fin: currentLocation.kilometrage_fin,
+      prix: currentLocation.prix,
+      voiture_id: currentLocation.voiture_id,
+      client_id: currentLocation.client_id
+
+      
+    });
+    //change the value of the button to say update
+    this.editMode = true;
+
   }
-  set kilometrage_fin_(kilometrage_fin: number) {
-    this.kilometrage_fin = kilometrage_fin;
-  }
-  get prix_(): number {
-    return this.prix;
-  }
-  set prix_(prix: number) {
-    this.prix = prix;
+  private fetchLocations(): void{
+    this.isFetching = true;
+    this.locationSevice.fetchLocations().subscribe((locations) => {
+      this.isFetching = false;
+      this.allLocations = locations;
+    });
   }
   
 

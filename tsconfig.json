@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "composite":true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "baseUrl": "./",

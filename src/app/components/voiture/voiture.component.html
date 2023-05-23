@@ -1,1 +1,60 @@
-<p>voiture works!</p>
+<h1>Ajouter un Voiture</h1>
+
+<form #VoituresForm = "ngForm"  (ngSubmit)="onAddVoiture(VoituresForm.value)" >
+    <div class="form-group">
+        <label for="type">Type</label>
+        <input type="text" class="form-control" name="type" placeholder="type" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="marque">marque</label>
+        <input type="text" class="form-control" name="marque" placeholder="marque" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="modele">modele</label>
+        <input type="text" class="form-control" name="modele" placeholder="modele" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="puissance">Puissance</label>
+        <input type="text" class="form-control" name="puissance" placeholder="puissance" ngModel>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" value="">{{editMode ? 'Update' :'Ajouter'}}</button>
+
+</form>
+
+
+<h1> La List Des Voitures </h1>
+
+<div class="product-display-area">
+    <table id="products">
+      <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Marque</th>
+        <th>Modele</th>
+        <th>Puissance</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngIf=" allVoitures.length<1 && !isFetching">
+        <td colspan="5">No Voitures found</td>
+      </tr>
+      <tr *ngIf="isFetching">
+        <td colspan="5">loading data...</td>
+      </tr>
+      <tr *ngFor="let Voiture of allVoitures; index as i">
+        <td> {{i+1}} </td>
+        <td>{{Voiture.type}}</td>
+        <td> {{Voiture.marque}} </td>
+        <td> {{Voiture.modele}} </td>
+        <td> {{Voiture.puissance}} </td>
+        <td><button class="btn-delete" (click)="onDeleteVoiture(Voiture.id)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        <td><button class="btn-success" (click)="onEditVoiture(Voiture.id)">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></td>
+      </tr>
+    </table>
+    <br>
+    
+  </div>
+  <div class="action-btn-container btn ">
+    <button class="btn-fetch" (click)="onVoituresFetch()">Fetch</button>
+  </div>
