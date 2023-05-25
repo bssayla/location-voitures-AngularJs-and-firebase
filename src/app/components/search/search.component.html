@@ -1,0 +1,135 @@
+<form #TableForm = "ngForm"  (ngSubmit)="onSearch(TableForm.value)" >
+    <div class="form-group">
+        <label for="table">Table</label>
+        <select class="form-control" name="table" ngModel>
+            <option value="voitures">Voitures</option>
+            <option value="clients">Clients</option>
+            <option value="locations">Locations</option>
+        </select>
+    </div>
+    <div *ngIf="table === 'voitures'" class="form-group">
+        <label for="champ">Champ</label>
+        <select class="form-control" name="champ" ngModel >
+            <option value="type">Type</option>
+            <option value="marque">Marque</option>
+            <option value="modele">Modele</option>
+            <option value="puissance">Puissance</option>
+        </select>
+    </div>    
+    <div *ngIf="table === 'clients'" class="form-group">
+        <label for="champ">Champ</label>
+        <select class="form-control" name="champ" ngModel>
+            <option value="nom">Nom</option>
+            <option value="prenom">Prenom</option>
+            <option value="adresse">Adresse</option>
+        </select>
+    </div>
+    <div *ngIf="table === 'locations' " class="form-group">
+        <label for="champ">Champ</label>
+        <select class="form-control" name="champ" ngModel>
+            <option value="date_debut">Date Debut</option>
+            <option value="date_fin">Date Fin</option>
+            <option value="prix">Prix</option>
+            <option value="kilometrage_debut">Kilometrage Debut</option>
+            <option value="kilometrage_fin">Kilometrage Fin</option>
+            
+
+        </select>
+    </div>
+    
+    <div *ngIf="step ==3" class="form-group">
+        <label for="valeur">Chercher</label>
+        <input type="text" class="form-control" name="valeur" placeholder="valeur" ngModel>
+    </div>
+
+    <button type="submit" class="btn btn-primary" value="">{{step!=3 ? "Next" : "Done"}}</button>
+</form>
+
+<div *ngIf=" afficherResultatClients ">
+    <h1> La List Des Client </h1>
+
+    <div class="product-display-area">
+      <table id="products">
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Adress</th>
+
+        </tr>
+        <tr *ngIf=" resultatClients.length<1 ">
+          <td colspan="5">No clients found</td>
+        </tr>
+
+        <tr *ngFor="let client of resultatClients; index as i">
+          <td> {{i+1}} </td>
+          <td>{{client.nom}}</td>
+          <td> {{client.prenom}} </td>
+          <td> {{client.adresse}} </td>
+        </tr>
+      </table>
+    </div>
+</div>
+
+
+<div *ngIf="afficherResultatVoitures">
+    <h1> La List Des Voitures </h1>
+
+    <div class="product-display-area">
+      <table id="products">
+        <tr>
+          <th>#</th>
+          <th>Type</th>
+          <th>Marque</th>
+          <th>Modele</th>
+          <th>Puissance</th>
+
+        </tr>
+        <tr *ngIf=" resultatVoitures.length<1 ">
+          <td colspan="5">No voitures found</td>
+        </tr>
+
+        <tr *ngFor="let voiture of resultatVoitures; index as i">
+          <td> {{i+1}} </td>
+          <td>{{voiture.type}}</td>
+          <td> {{voiture.marque}} </td>
+          <td> {{voiture.modele}} </td>
+          <td> {{voiture.puissance}} </td>
+        </tr>
+      </table>
+    </div>
+</div>
+<div *ngIf=" afficherResultatLocations">
+    <h1> La List Des Locations </h1>
+
+    <div class="product-display-area">
+      <table id="products">
+        <tr>
+          <th>#</th>
+          <th>Date Debut</th>
+          <th>Date Fin</th>
+          <th>Prix</th>
+          <th>Kilometrage Debut</th>
+          <th>Kilometrage Fin</th>
+          <th>Id Client</th>
+          <th>Id Voiture</th>
+
+        </tr>
+        <tr *ngIf=" resultatLocation.length<1 ">
+          <td colspan="5">No locations found</td>
+        </tr>
+
+        <tr *ngFor="let location of resultatLocation; index as i">
+          <td> {{i+1}} </td>
+          <td>{{location.date_debut}}</td>
+          <td> {{location.date_fin}} </td>
+          <td> {{location.prix}} </td>
+          <td> {{location.kilometrage_debut}} </td>
+          <td> {{location.kilometrage_fin}} </td>
+          <td> {{location.client_id}} </td>
+          <td> {{location.voiture_id}} </td>
+       </tr>
+      </table>
+    </div>
+</div>
+

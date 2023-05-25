@@ -14,13 +14,17 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchComponent } from './components/search/search.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
     VoitureComponent,
-    LocationComponent
+    LocationComponent,
+    SearchComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
