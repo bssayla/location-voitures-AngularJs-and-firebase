@@ -7,24 +7,26 @@ import { Voiture } from 'src/app/models/voiture';
   providedIn: 'root'
 })
 export class VoitureService {
+   DataBaseLink:string = "you-dataBase-Link";
+  
 
   constructor(private http: HttpClient) { }
 
   deleteVoiture(id:string): void {
-    this.http.delete("https://projet-java-location-voitures-default-rtdb.europe-west1.firebasedatabase.app/voitures/"+id+".json")
+    this.http.delete(this.DataBaseLink+"voitures/"+id+".json")
     .subscribe( (res)=>{
       console.log(res);
     })
   }
   ajouterUneVoiture(voiture: {type:string,marque:string,modele:string,puissance:number}): void {
-    this.http.post<{name: string}>("https://projet-java-location-voitures-default-rtdb.europe-west1.firebasedatabase.app/voitures.json",voiture)
+    this.http.post<{name: string}>(this.DataBaseLink+"voitures.json",voiture)
     .subscribe( (res)=>{
       console.log(res);
     })
 
   }
   fetchVoitures() {
-    return this.http.get<{[key: string]: Voiture}>("https://projet-java-location-voitures-default-rtdb.europe-west1.firebasedatabase.app/voitures.json")
+    return this.http.get<{[key: string]: Voiture}>(this.DataBaseLink+"voitures.json")
     .pipe(map((responseData) => {
       const VoituresArray :Voiture[]=[];
       for(const key in responseData){
@@ -38,7 +40,7 @@ export class VoitureService {
 
   }
   updateVoiture(id:string,value: {type:string,marque:string,modele:string,puissance:number}): void {
-    this.http.put("https://projet-java-location-voitures-default-rtdb.europe-west1.firebasedatabase.app/voitures/"+id+".json",value)
+    this.http.put(this.DataBaseLink+"voitures/"+id+".json",value)
     .subscribe();
 
   }

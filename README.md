@@ -1,3 +1,25 @@
+# Remplace it with your own config in all environments files
+```js
+yourFirebaseConfig: {
+        apiKey: "apikey",
+        authDomain: "authdomain",
+        projectId: "id",
+        storageBucket: "storagebucket",
+        messagingSenderId: "id",
+        appId: "appId",
+        measurementId: "id"
+    }
+```
+
+
+# Add your data base Link in the all the services (client,location,voiture)
+
+```js
+  DataBaseLink:string = "you-dataBase-Link";
+```
+
+
+
 # Location Voitures (AngularJs / Firebase)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
